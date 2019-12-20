@@ -54,17 +54,4 @@ public class Program
 			}
 		}
 	}
-	
-	private static double CalculateFuel(double mass)
-	{
-		var result = Math.Floor(mass / 3.0) - 2.0;
-		if(result <= 0)
-		{
-			return 0;
-		}
-		else
-		{
-			return result + CalculateFuel(result);
-		}
-	}
 }
