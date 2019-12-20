@@ -37,19 +37,19 @@ public class Program
 
             if (i + operation.ParameterCount < tempInput.Length)
             {
-                var outOfRange = false;
-                for (int j = 0; j < operation.ParameterCount; j++)
-                {
-                    if (tempInput[i + j] < 0 || tempInput[i + j] >= tempInput.Length)
-                    {
-                        outOfRange = true;
-                    }
-                }
+                //var outOfRange = false;
+                //for (int j = 1; j < operation.ParameterCount + 1; j++)
+                //{
+                //    if (tempInput[i + j] < 0 || tempInput[i + j] >= tempInput.Length)
+                //    {
+                //        outOfRange = true;
+                //    }
+                //}
 
-                if (outOfRange)
-                {
-                    break;
-                }
+                //if (outOfRange)
+                //{
+                //    break;
+                //}
 
                 operation.Operate(ref tempInput, i, parameterModes.ToArray());
             }
@@ -87,16 +87,17 @@ public class Program
         {
             int parameter1 = 0;
             int parameter2 = 0;
-            int parameter3 = 0;
 
             switch (modes[0])
             {
                 case ParameterMode.Position:
                     parameter1 = tape[tape[operationCodeIndex + 1]];
                     break;
+
                 case ParameterMode.Immediate:
                     parameter1 = tape[operationCodeIndex + 1];
                     break;
+
                 default:
                     break;
             }
@@ -106,26 +107,17 @@ public class Program
                 case ParameterMode.Position:
                     parameter2 = tape[tape[operationCodeIndex + 2]];
                     break;
+
                 case ParameterMode.Immediate:
                     parameter2 = tape[operationCodeIndex + 2];
                     break;
+
                 default:
                     break;
             }
+            //Console.WriteLine(parameter1 + " + " + parameter2);
 
-            switch (modes[2])
-            {
-                case ParameterMode.Position:
-                    parameter3 = tape[operationCodeIndex + 2];
-                    break;
-                case ParameterMode.Immediate:
-                    parameter3 = operationCodeIndex + 2;
-                    break;
-                default:
-                    break;
-            }
-
-            tape[parameter3] = parameter1 + parameter2;
+            tape[tape[operationCodeIndex + 3]] = parameter1 + parameter2;
         }
     }
 
@@ -139,16 +131,17 @@ public class Program
         {
             int parameter1 = 0;
             int parameter2 = 0;
-            int parameter3 = 0;
 
             switch (modes[0])
             {
                 case ParameterMode.Position:
                     parameter1 = tape[tape[operationCodeIndex + 1]];
                     break;
+
                 case ParameterMode.Immediate:
                     parameter1 = tape[operationCodeIndex + 1];
                     break;
+
                 default:
                     break;
             }
@@ -158,26 +151,18 @@ public class Program
                 case ParameterMode.Position:
                     parameter2 = tape[tape[operationCodeIndex + 2]];
                     break;
+
                 case ParameterMode.Immediate:
                     parameter2 = tape[operationCodeIndex + 2];
                     break;
+
                 default:
                     break;
             }
 
-            switch (modes[2])
-            {
-                case ParameterMode.Position:
-                    parameter3 = tape[operationCodeIndex + 2];
-                    break;
-                case ParameterMode.Immediate:
-                    parameter3 = operationCodeIndex + 2;
-                    break;
-                default:
-                    break;
-            }
+            //Console.WriteLine(parameter1 + " * " + parameter2);
 
-            tape[parameter3] = parameter1 * parameter2;
+            tape[tape[operationCodeIndex + 3]] = parameter1 * parameter2;
         }
     }
 
@@ -211,9 +196,6 @@ public class Program
 
         public override int ParameterCount => 1;
 
-        public override void Operate(ref int[] tape, int operationCodeIndex, ParameterMode[] modes)
-        {
-            Console.WriteLine("Output: " + tape[operationCodeIndex + 1]);
-        }
+        public override void Operate(ref int[] tape, int operationCodeIndex, ParameterMode[] modes) => Console.WriteLine("Output: " + tape[tape[operationCodeIndex + 1]]);
     }
 }
