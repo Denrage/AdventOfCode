@@ -57,6 +57,7 @@ public class Program
         }
 
         Console.WriteLine(tempInput[0]);
+        Console.WriteLine("Done");
 
         Console.ReadKey();
     }
@@ -200,7 +201,7 @@ public class Program
         public override void Operate(ref int[] tape, int operationCodeIndex, ParameterMode[] modes)
         {
             Console.Write("Input: ");
-            tape[operationCodeIndex + 1] = int.Parse(Console.ReadLine());
+            tape[tape[operationCodeIndex + 1]] = int.Parse(Console.ReadLine());
         }
     }
 
