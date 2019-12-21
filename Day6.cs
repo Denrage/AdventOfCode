@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public class Program
 {
@@ -31,7 +30,35 @@ public class Program
 
             celestialObjects[sourceName].OrbitedBy.Add(orbitter);
         }
-        Console.WriteLine(celestialObjects.Select(x => x.Value.OrbitsOther()).Sum());
+
+        var you = celestialObjects["YOU"];
+        var san = celestialObjects["SAN"];
+
+        var youOrbitPath = you.GetOrbitPath();
+        var sanOrbitPath = san.GetOrbitPath();
+
+        int youIndexOfFirstSameCelestialObject = -1;
+        int sanIndexOfFirstSameCelestialObject = -1;
+        for (int i = 0; i < youOrbitPath.Length; i++)
+        {
+            for (int j = 0; j < sanOrbitPath.Length; j++)
+            {
+                if (youOrbitPath[i].Name == sanOrbitPath[j].Name)
+                {
+                    youIndexOfFirstSameCelestialObject = i;
+                    sanIndexOfFirstSameCelestialObject = j;
+                    break;
+                }
+            }
+
+            if (youIndexOfFirstSameCelestialObject != -1)
+            {
+                break;
+            }
+        }
+
+        Console.WriteLine(youIndexOfFirstSameCelestialObject + sanIndexOfFirstSameCelestialObject);
+
         Console.WriteLine("Done");
         Console.ReadKey();
     }
@@ -40,7 +67,7 @@ public class Program
     {
         public List<CelestialObject> OrbitedBy { get; }
         public CelestialObject Orbits { get; set; }
-        private string Name { get; }
+        public string Name { get; }
 
         public CelestialObject(string name, CelestialObject orbits)
         {
@@ -62,6 +89,19 @@ public class Program
             }
 
             return counter;
+        }
+
+        public CelestialObject[] GetOrbitPath()
+        {
+            var result = new List<CelestialObject>();
+            var current = this.Orbits;
+            while (current != null)
+            {
+                result.Add(current);
+                current = current.Orbits;
+            }
+
+            return result.ToArray();
         }
     }
 }
